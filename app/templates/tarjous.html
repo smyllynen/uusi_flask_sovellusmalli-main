@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+{% import "auth/wtf.html" as wtf %}
+
+
+{% block title %}Luo Tarjous{% endblock %}
+
+{% block page_content %}
+
+<script>
+    function printTable() {
+        var divToPrint = document.querySelector('.table-responsive');
+        var newWin = window.open('', '_blank');
+        newWin.document.open();
+        newWin.document.write(`
+        <html>
+            <head>
+                <style>
+                    table.table {
+    
+    margin: 0 auto;
+}
+tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+    border-bottom-width: 1px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+button {
+    display: none;
+}
+
+                    body {
+                        font-family: Verdana, sans-serif;
+                        color: black;  /* Change this to your desired color */
+                    }
+                    tr {
+                    text-align: left;
+}
+                </style>
+            </head>
+            <body onload="window.print()">
+                ${divToPrint.innerHTML}
+            </body>
+        </html>
+    `);
+
+        newWin.document.close();
+    }
+</script>
+<style>
+    .col-md-4 {
+        margin: 0 auto;
+
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    }
+
+    body {
+        animation: colorChange 10s infinite;
+    }
+
+    @keyframes colorChange {
+        0% {
+            background: #00C9A7;
+        }
+
+        50% {
+            background: #0088C2;
+        }
+
+        100% {
+            background: #68558D;
+        }
+    }
+
+
+    .banner {
+
+        position: relative;
+        text-align: center;
+        color: white;
+        background: radial-gradient(circle at center, rgba(0, 0, 0, 0.5), transparent);
+
+        /* Häivytetty tausta */
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+    }
+
+    .banner h1 {
+        animation: slideUp 2s ease-in-out infinite;
+        font-size: 2em;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    @keyframes slideUp {
+        0% {
+            transform: translateY(30px);
+            opacity: 0;
+        }
+
+        50% {
+            transform: translateY(-10px);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(30px);
+            opacity: 0;
+        }
+    }
+</style>
+<div class="container-fluid"></div>
+<div class="banner">
+    <h1>Tarjouspohja</h1>
+</div>
+</div>
+<br>
+{% if current_user.is_authenticated %}
+
+<div class="col-md-4">
+    <br>
+    {{ wtf.quick_form(form,novalidate=True,extra_classes='needs-validation') }}
+</div>
+<br>
+<br>
+<div class="col-md-4"">
+    <div class=" table-responsive">
+    
+    <table class="table">
+        <tbody>
+
+            <tr>
+                <th>Yrityksen nimi: {{ tarjous. yritys_nimi}} </th>
+            </tr>
+            <tr>
+                <th>Ensimmäinen vastaanottaja: {{ tarjous.vastaanottaja1}}
+                <th>
+            </tr>
+            <tr>
+                <th>Toinen vastaanottaja: {{ tarjous.vastaanottaja2 }}</th>
+            </tr>
+            <tr>
+                <th>Yritys joka tarjoaa tarjousta: {{ tarjous.tarjoaja}} </th>
+            </tr>
+            <tr>
+                <th>Valmistelija: {{ tarjous.valmistelija }}</th>
+            </tr>
+            <tr>
+                <th>Viite: {{ tarjous.viite }}</th>
+            </tr>
+            <tr>
+                <th>Lainaus luotu: {{ tarjous.lainaus_luotu }} </th>
+            </tr>
+            <tr>
+                <th>Tarjous päättyy: {{ tarjous.tarjous_päättyy }} </th>
+            </tr>
+            <tr>
+                <th>Loppusumma: {{ tarjous.määrä * tarjous.hinta * (1 - tarjous.prosenttialennus / 100) }}</th>
+            </tr>
+
+            <tr>
+                <th>Tuotteet ja palvelut: {{ tarjous.tuotteet_ja_palvelut }}</th>
+            </tr>
+            <tr>
+                <th>Määrä: {{ tarjous.määrä}} kpl </th>
+            </tr>
+            <tr>
+                <th>Hinta: {{ tarjous.hinta }} €</th>
+            </tr>
+            <tr>
+                <th>Yhteenveto: {{ tarjous.määrä * tarjous.hinta}} €</th>
+            </tr>
+            <tr>
+                <th>Kertasumma: {{ tarjous.kertasumma }} € </th>
+            </tr>
+
+
+
+            <tr>
+            <tr>
+                <th>Alkuperäinen hinta: {{ tarjous.määrä * tarjous.hinta }} €</th>
+            </tr>
+            <tr>
+                <th>Prosenttialennus: {{ tarjous.prosenttialennus }} %</th>
+            </tr>
+            <tr>
+                <th>Alennettu hinta: {{ tarjous.määrä * tarjous.hinta * (1 - tarjous.prosenttialennus / 100) }} €
+                </th>
+            </tr>
+            </tr>
+
+            <tr>
+                <th>Kommentit: {{ tarjous.kommentit }}</th>
+            </tr>
+            <tr>
+                <th>Ostoehdot: {{ tarjous.ostoehdot}} </th>
+            </tr>
+            <tr>
+                <th>Allekirjoitus: {{ tarjous.allekirjoitus1 }} </th>
+            </tr>
+            <tr>
+                <th>Allekirjoitus: </th>
+            </tr>
+            <tr>
+                <th>Päiväys: {{ tarjous.päiväys}} </th>
+            </tr>
+            <tr>
+                <th>Tulostettu nimi: {{ tarjous.tulostettu_nimi}} </th>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="printTable()"> Tulosta näkymä </button>
+    <br>
+
+</div>
+<br>
+</div>
+
+
+
+
+{% else %}
+<p>You must be logged in to view this content.</p>
+{% endif %}
+{% endblock %}

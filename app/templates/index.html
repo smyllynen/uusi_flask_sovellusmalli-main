@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Sovellusmalli{% endblock %}
+
+{% block page_content %}
+<style>
+    body {
+        background-color: rgba(106, 154, 149, 0.9);
+        /* Tummempi taustaväri */
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 1.9;
+
+    }
+
+    .page-header {
+        padding-top: 4%;
+        padding-bottom: 4%;
+    }
+
+    @keyframes breathe {
+
+        0%,
+        100% {
+            font-size: 2.0rem;
+            opacity: 1;
+        }
+
+        50% {
+            font-size: 2.2rem;
+            opacity: 0.5;
+        }
+    }
+
+    h1 {
+        animation: breathe 2s infinite;
+        font-weight: 900;
+        margin-bottom: 3%;
+        letter-spacing: 0.093em;
+        text-transform: uppercase;
+        text-align: center;
+        word-break: break-word;
+        color: white;
+        text-shadow: 0rem 0rem 0.5rem black;
+    }
+
+    body {
+
+        overflow: hidden;
+        height: 100vh;
+        margin: 0;
+        display: flex;
+
+        justify-content: center;
+    }
+
+    .star {
+        position: absolute;
+        width: 2px;
+        height: 4px;
+        background: white;
+        animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+        from {
+            transform: translateY(-100vh);
+        }
+
+        to {
+            transform: translateY(100vh);
+        }
+    }
+</style>
+
+<script>
+    for (let i = 0; i < 200; i++) {
+        let star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * window.innerWidth + 'px';
+        star.style.animationDuration = Math.random() * 10 + 's';
+        star.style.animationDelay = Math.random() * 1 + 's';
+        document.body.appendChild(star);
+    }
+</script>
+<div class="page-header">
+    <h1>Tervetuloa tarjouspohja-sivulle!, {% if current_user.is_authenticated %}{{ current_user.username }}{% else
+        %}Vieras. Kirjaudu sisään tai luo tili, niin pääset hyödyntämään ilmaista tarjouspohjageneraattoria. {% endif
+        %}!</h1>
+</div>
+
+{% endblock %}
